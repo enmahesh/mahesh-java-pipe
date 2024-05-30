@@ -1,0 +1,38 @@
+pipeline{
+    agent any
+    tools {
+        maven 'Maven' 
+    }
+    stages{
+        stage("Test"){
+            steps{
+                echo "========executing A========"
+                sh 'mvn --version'
+            }
+        }
+             stage("Build"){
+            steps{
+                echo "========executing A========"
+            }
+             }
+             stage("Deploy"){
+            steps{
+                echo "========executing A========"
+                deploy adapters: [tomcat9(credentialsId: 'tomcat9details', path: '', url: 'http://192.168.10.13:8080')], contextPath: '/app', war: '**/*.war'
+            }
+             }   
+        }
+    
+    post{
+        always{
+            echo "========always========"
+        }
+        success{
+            echo "========pipeline executed successfully ========"
+        }
+        failure{
+            echo "========pipeline execution failed========"
+        }
+        }
+}
+     
